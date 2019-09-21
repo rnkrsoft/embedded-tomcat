@@ -76,13 +76,12 @@ public class EmbeddedStartup {
         tomcat.setPort(port);
         tomcat.setHostname(hostName);
         tomcat.setBaseDir(baseDirPath.getAbsolutePath());
-        Connector connector = tomcat.getConnector();
+        Connector connector = new Connector(protocol);
+        tomcat.setConnector(connector);
         //设置JVM字符集
         connector.setPort(port);
 
         connector.setAsyncTimeout(asyncTimeout);
-        //设置连接器协议
-        connector.setProtocol(protocol);
         //设置系统文件编码
         connector.setProperty(FILE_ENCODING, file_encoding);
         //设置连接器字符集
@@ -118,6 +117,7 @@ public class EmbeddedStartup {
         // context load webapp.WEB-INF/web.xml from classpath
         context.addLifecycleListener(new EmbeddedWebXmlMountListener());
         tomcat.start();
+
         tomcat.getServer().await();
     }
 }
