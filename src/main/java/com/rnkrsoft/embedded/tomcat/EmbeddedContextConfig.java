@@ -4,7 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.catalina.WebResourceRoot;
 import org.apache.catalina.startup.ContextConfig;
 import org.apache.tomcat.util.descriptor.web.WebXml;
-import org.apache.tomcat.util.scan.Jar;
+import org.apache.tomcat.Jar;
 import org.apache.tomcat.util.scan.JarFactory;
 
 import java.io.File;
@@ -33,11 +33,8 @@ class EmbeddedContextConfig extends ContextConfig {
 				String urlString = url.toString();
 				if (isInsideNestedJar(urlString)) {
 					// It's a nested jar but we now don't want the suffix
-					// because
-					// Tomcat
-					// is going to try and locate it as a root URL (not the
-					// resource
-					// inside it)
+					// because Tomcat is going to try and locate it
+					// as a root URL (not the resource inside it)
 					urlString = urlString.substring(0, urlString.length() - 2);
 				}
 				url = new URL(urlString);
@@ -47,8 +44,10 @@ class EmbeddedContextConfig extends ContextConfig {
 						jar.nextEntry();
 						String entryName = jar.getEntryName();
 						while (entryName != null) {
-							if (entryName.startsWith(META_INF_RESOURCES + "/")) {
-								context.getResources().createWebResourceSet(WebResourceRoot.ResourceSetType.RESOURCE_JAR, "/", url, "/" + META_INF_RESOURCES);
+							if (entryName.startsWith(META_INF_RESOURCES)) {
+								context.getResources().createWebResourceSet(
+										WebResourceRoot.ResourceSetType.RESOURCE_JAR,
+										"/", url, "/" + META_INF_RESOURCES);
 								break;
 							}
 							jar.nextEntry();
@@ -59,7 +58,9 @@ class EmbeddedContextConfig extends ContextConfig {
 					File file = new File(url.toURI());
 					File resources = new File(file, META_INF_RESOURCES);
 					if (resources.isDirectory()) {
-						context.getResources().createWebResourceSet(WebResourceRoot.ResourceSetType.RESOURCE_JAR, "/", resources.getAbsolutePath(), null, "/");
+						context.getResources().createWebResourceSet(
+								WebResourceRoot.ResourceSetType.RESOURCE_JAR, "/",
+								resources.getAbsolutePath(), null, "/");
 					}
 				}
 			} catch (IOException ioe) {

@@ -9,6 +9,7 @@ import org.apache.tomcat.util.ExceptionUtils;
 import org.apache.tomcat.util.res.StringManager;
 import org.apache.tomcat.util.scan.Constants;
 import org.apache.tomcat.util.scan.StandardJarScanFilter;
+import org.apache.tomcat.util.scan.UrlJar;
 
 import javax.servlet.ServletContext;
 import java.io.File;
@@ -110,7 +111,6 @@ class EmbeddedStandardJarScanner implements JarScanner {
 	 */
 	@Override
 	public void scan(JarScanType scanType, ServletContext context, JarScannerCallback callback) {
-
 		if (log.isTraceEnabled()) {
 			log.trace(sm.getString("jarScan.webinflibStart"));
 		}
@@ -235,20 +235,20 @@ class EmbeddedStandardJarScanner implements JarScanner {
 	 */
 	private void process(JarScanType scanType, JarScannerCallback callback, URL url, String webappPath,
 						 boolean isWebapp) throws IOException {
-
 		if (log.isTraceEnabled()) {
 			log.trace(sm.getString("jarScan.jarUrlStart", url));
 		}
 
 		URLConnection conn = url.openConnection();
 		if (conn instanceof JarURLConnection) {
-			callback.scan((JarURLConnection) conn, webappPath, isWebapp);
+
+			callback.scan(new UrlJar(url.openConnection().getURL()), webappPath, isWebapp);
 		} else {
 			String urlStr = url.toString();
 			if (urlStr.startsWith(FILE) || urlStr.startsWith(HTTP) || urlStr.startsWith(HTTPS)) {
 				if (urlStr.endsWith(Constants.JAR_EXT)) {
 					URL jarURL = new URL(JAR + urlStr + "!/");
-					callback.scan((JarURLConnection) jarURL.openConnection(), webappPath, isWebapp);
+					callback.scan(new UrlJar(jarURL), webappPath, isWebapp);
 				} else {
 					File f;
 					try {
@@ -256,7 +256,7 @@ class EmbeddedStandardJarScanner implements JarScanner {
 						if (f.isFile() && isScanAllFiles()) {
 							// Treat this file as a JAR
 							URL jarURL = new URL(JAR + urlStr + "!/");
-							callback.scan((JarURLConnection) jarURL.openConnection(), webappPath, isWebapp);
+							callback.scan(new UrlJar(jarURL), webappPath, isWebapp);
 						} else if (f.isDirectory()) {
 							if (scanType == JarScanType.PLUGGABILITY) {
 								callback.scan(f, webappPath, isWebapp);
@@ -277,7 +277,6 @@ class EmbeddedStandardJarScanner implements JarScanner {
 				}
 			}
 		}
-
 	}
 
 	private static class ClassPathEntry {
