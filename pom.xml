@@ -149,15 +149,27 @@
 					<argLine>-Dfile.encoding=UTF-8</argLine>
 				</configuration>
 			</plugin>
-			<!--package时打出可执行的tar.gz-->
+			<!-- 解决资源文件的编码问题 -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-resources-plugin</artifactId>
+				<version>2.3</version>
+				<configuration>
+					<encoding>UTF-8</encoding>
+				</configuration>
+			</plugin>
 			<plugin>
 				<artifactId>maven-assembly-plugin</artifactId>
 				<configuration>
-					<descriptor>src/main/assembly/assembly.xml</descriptor>
 					<descriptorRefs>
 						<!--不打包包含依赖的jar包-->
-						<!--<descriptorRef>jar-with-dependencies</descriptorRef>-->
+						<descriptorRef>jar-with-dependencies</descriptorRef>
 					</descriptorRefs>
+					<archive>
+						<manifest>
+							<mainClass>com.rnkrsoft.embedded.cli.Main</mainClass>
+						</manifest>
+					</archive>
 				</configuration>
 				<executions>
 					<execution>
@@ -168,15 +180,6 @@
 						</goals>
 					</execution>
 				</executions>
-			</plugin>
-			<!-- 解决资源文件的编码问题 -->
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-resources-plugin</artifactId>
-				<version>2.3</version>
-				<configuration>
-					<encoding>UTF-8</encoding>
-				</configuration>
 			</plugin>
 		</plugins>
 	</build>
@@ -240,6 +243,25 @@
 				<repository>
 					<id>oss</id>
 					<url>https://oss.sonatype.org/service/local/staging/deploy/maven2</url>
+				</repository>
+			</distributionManagement>
+		</profile>
+		<profile>
+			<id>rnkrsoft</id>
+			<repositories>
+				<repository>
+					<id>rnkrsoft</id>
+					<url>http://nexus.rnkrsoft.com/content/repositories/public/</url>
+				</repository>
+			</repositories>
+			<distributionManagement>
+				<snapshotRepository>
+					<id>rnkrsoft</id>
+					<url>http://nexus.rnkrsoft.com/content/repositories/open-source-snapshots/</url>
+				</snapshotRepository>
+				<repository>
+					<id>rnkrsoft</id>
+					<url>http://nexus.rnkrsoft.com/content/repositories/open-source-releases/</url>
 				</repository>
 			</distributionManagement>
 		</profile>

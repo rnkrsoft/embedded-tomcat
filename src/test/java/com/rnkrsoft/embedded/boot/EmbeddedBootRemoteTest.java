@@ -25,6 +25,6 @@ import org.junit.Test;
 public class EmbeddedBootRemoteTest {
     @Test
     public void test1() {
-        EmbeddedApplicationLoader.runWith(EmbeddedBootRemoteTest.class, new String[0]);
+        EmbeddedApplicationLoader.runWith(EmbeddedBootRemoteTest.class, new String[]{"-p"});
     }
 }
