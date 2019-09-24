@@ -4,7 +4,7 @@ import com.rnkrsoft.embedded.boot.EmbeddedApplicationLoader;
 import com.rnkrsoft.embedded.boot.annotation.EmbeddedBootApplication;
 
 /**
- * Created by woate on 2019/9/23.
+ * Created by rnkrsoft.com on 2019/9/23.
  */
 @EmbeddedBootApplication
 public class Main {
