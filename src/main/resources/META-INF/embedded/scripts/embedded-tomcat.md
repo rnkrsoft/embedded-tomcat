@@ -344,3 +344,7 @@ windows下双击或者运行startup.bat，linux或者mac下双击或者运行sta
 ### 3.3 滚动日志文件输出日志
 
 如果需要设置为滚动日志文件输出日志，则需要将ref="Console"替换为ref="RollingFile"，日志将以日志文件方式输出。
+
+## 4 命令行
+### 4.1 -generate(-g)
+### 4.2 -script(-s)
