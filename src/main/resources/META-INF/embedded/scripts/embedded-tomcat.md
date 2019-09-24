@@ -11,7 +11,7 @@
 </dependency>
 ```
 
-项目中的需要在project/build/plugins/增加plugin节点用于将当前jar包打包成FAT JAR。 
+项目中的需要在project/build/plugins/增加plugin节点用于将当前jar包打包成FAT JAR。
 
 ```xml
 <plugin>
@@ -61,7 +61,7 @@ import org.junit.Test;
 
 @EmbeddedBootApplication
 public class DemoMain {
-   
+
 	public static void  main(String[] args){
         EmbeddedApplicationLoader.runWith(DemoMain.class, args);
     }
@@ -347,4 +347,8 @@ windows下双击或者运行startup.bat，linux或者mac下双击或者运行sta
 
 ## 4 命令行
 ### 4.1 -generate(-g)
+生成容器运行的配置文件tomcat.properties，该文件位于当前jar包运行的work目录下。
 ### 4.2 -script(-s)
+生成容器运行的部署脚本log4j2.xml，startup.sh,startup.bat文件，用于实现启动日志的外部配置，JVM参数设置等定制化。
+### 4.3 -pom(-p)
+生成开发的maven项目脚手架目录，已将需要的pom.xml配置配置就绪。
