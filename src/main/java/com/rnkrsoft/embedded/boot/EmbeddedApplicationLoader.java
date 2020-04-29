@@ -158,7 +158,7 @@ public class EmbeddedApplicationLoader {
         if (CONFIG == null) {
             throw ErrorContextFactory.instance()
                     .message("Config Provider is not already!")
-                    .solution("please use Skeleton4jApplicationLoader.runWith(bootLoaderClass, args);")
+                    .solution("please use EmbeddedApplicationLoader.runWith(bootLoaderClass, args);")
                     .runtimeException();
         } else {
             return CONFIG;

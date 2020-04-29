@@ -76,7 +76,7 @@ class EmbeddedAnnotationConfigProvider extends AbstractConfigProvider implements
     @Override
     public void reload() {
         if (this.file == null) {
-            System.err.println("file is null");
+            log.warn("file is null");
             return;
         }
         if (generateProperties) {
@@ -89,7 +89,7 @@ class EmbeddedAnnotationConfigProvider extends AbstractConfigProvider implements
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            log.warn(MessageFormatter.format("使用配置文件启动 '{}'", fileName));
+            log.warn(MessageFormatter.format("use local config startup '{}'!", fileName));
             properties.clear();
             InputStream is = null;
             try {
@@ -107,7 +107,7 @@ class EmbeddedAnnotationConfigProvider extends AbstractConfigProvider implements
                 }
             }
         } else {
-            log.warn(MessageFormatter.format("使用@EmbeddedBootApplication"));
+            log.warn(MessageFormatter.format("use Annotation '{}'", EmbeddedBootApplication.class));
             //从注解提取配置信息
             extractAnnotation();
         }

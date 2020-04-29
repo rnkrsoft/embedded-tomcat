@@ -4,8 +4,7 @@ import com.rnkrsoft.config.ConfigProvider;
 import com.rnkrsoft.config.ConfigProviderFactory;
 import com.rnkrsoft.utils.StringUtils;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.catalina.Context;
-import org.apache.catalina.Host;
+import org.apache.catalina.*;
 import org.apache.catalina.connector.Connector;
 import org.apache.catalina.startup.Tomcat;
 import org.apache.coyote.ProtocolHandler;
@@ -108,6 +107,8 @@ public class EmbeddedStartup {
         host.setAutoDeploy(false);
 
         Context context = tomcat.addWebapp(host, contextPath, contextDocBasePath.getAbsolutePath(), new EmbeddedContextConfig());
+
+
         context.setJarScanner(new EmbeddedStandardJarScanner());
 
         ClassLoader classLoader = EmbeddedStartup.class.getClassLoader();
